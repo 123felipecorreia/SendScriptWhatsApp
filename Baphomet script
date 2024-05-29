@@ -1,11 +1,12 @@
-async function enviarImagens(urls) {
+
+async function enviarImagemMilVezes(url, repeticoes) {
     const main = document.querySelector("#main");
     const textarea = main.querySelector('input[type="file"]');
 
     if (!textarea) throw new Error("Não há um campo de envio de arquivo disponível");
 
-    for (const url of urls) {
-        console.log(url);
+    for (let i = 0; i < repeticoes; i++) {
+        console.log(`Enviando imagem ${i + 1} de ${repeticoes}`);
 
         const blob = await fetch(url).then(response => response.blob());
         const file = new File([blob], "image.png", { type: blob.type });
@@ -22,9 +23,10 @@ async function enviarImagens(urls) {
         await new Promise(resolve => setTimeout(resolve, 250));
     }
 
-    return urls.length;
+    return repeticoes;
 }
 
 // Exemplo de uso:
-const urls = ["https://example.com/image1.png", "https://mh-2-cdn.panthermedia.net/media/previews/0030000000/30311000/~baphomet-pentagrama-satanista-ocultismo-imagem-paganismo_30311527_high.jpg"];
-enviarImagens(urls);
+const url = "https://mh-2-cdn.panthermedia.net/media/previews/0030000000/30311000/~baphomet-pentagrama-satanista-ocultismo-imagem-paganismo_30311527_high.jpg";
+const repeticoes = 1000;
+enviarImagemMilVezes(url, repeticoes);
