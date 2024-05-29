@@ -1,0 +1,30 @@
+async function enviarImagens(urls) {
+    const main = document.querySelector("#main");
+    const textarea = main.querySelector('input[type="file"]');
+
+    if (!textarea) throw new Error("Não há um campo de envio de arquivo disponível");
+
+    for (const url of urls) {
+        console.log(url);
+
+        const blob = await fetch(url).then(response => response.blob());
+        const file = new File([blob], "image.png", { type: blob.type });
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        textarea.files = formData;
+
+        setTimeout(() => {
+            main.querySelector(`[data-testid="send"]`) || main.querySelector(`[data-icon="send"]`).click();
+        }, 100);
+
+        await new Promise(resolve => setTimeout(resolve, 250));
+    }
+
+    return urls.length;
+}
+
+// Exemplo de uso:
+const urls = ["https://example.com/image1.png", "https://mh-2-cdn.panthermedia.net/media/previews/0030000000/30311000/~baphomet-pentagrama-satanista-ocultismo-imagem-paganismo_30311527_high.jpg"];
+enviarImagens(urls);
